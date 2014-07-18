@@ -1,0 +1,828 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>6.2</ProjectVersion>
+    <ToolchainName>com.Atmel.AVRGCC32.C</ToolchainName>
+    <ProjectGuid>{38f9874a-5ecb-432f-9961-a5a6dccbafd8}</ProjectGuid>
+    <avrdevice>AT32UC3A0512</avrdevice>
+    <avrdeviceseries>uc3a</avrdeviceseries>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <OutputFileName>$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AssemblyName>LWIPTEST</AssemblyName>
+    <Name>LWIPTEST</Name>
+    <RootNamespace>LWIPTEST</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress />
+    <UncachedRange />
+    <OverrideVtorValue />
+    <BootSegment>2</BootSegment>
+    <eraseonlaunchrule>1</eraseonlaunchrule>
+    <AsfFrameworkConfig>
+      <framework-data>
+        <options>
+          <option id="avr32.drivers.gpio" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.boards" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="avr32.drivers.cpu.cycle_counter" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="common.services.basic.clock" value="Add" config="" content-id="Atmel.ASF" />
+          <option id="avr32.drivers.macb" value="Add" config="dp83848" content-id="Atmel.ASF" />
+          <option id="common.applications.user_application" value="Add" config="" content-id="Atmel.ASF" />
+        </options>
+        <configurations>
+          <configuration key="config.avr32.utils.trampoline" value="yes" default="yes" content-id="Atmel.ASF" />
+          <configuration key="config.avr32.utils.gccstartup" value="yes" default="yes" content-id="Atmel.ASF" />
+          <configuration key="config.utils.interrupt.intc" value="yes" default="yes" content-id="Atmel.ASF" />
+          <configuration key="config.avr32.drivers.intc.exception" value="yes" default="yes" content-id="Atmel.ASF" />
+        </configurations>
+        <files>
+          <file path="src/ASF/avr32/boards/evk1100/evk1100.h" framework="" version="" source="avr32/boards/evk1100/evk1100.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/boards/evk1100/init.c" framework="" version="" source="avr32/boards/evk1100/init.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/boards/evk1100/led.c" framework="" version="" source="avr32/boards/evk1100/led.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/boards/evk1100/led.h" framework="" version="" source="avr32/boards/evk1100/led.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/gpio/gpio.c" framework="" version="" source="avr32/drivers/gpio/gpio.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/gpio/gpio.h" framework="" version="" source="avr32/drivers/gpio/gpio.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/intc/exception.S" framework="" version="" source="avr32/drivers/intc/exception.S" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/intc/intc.c" framework="" version="" source="avr32/drivers/intc/intc.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/intc/intc.h" framework="" version="" source="avr32/drivers/intc/intc.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/compiler.h" framework="" version="" source="avr32/utils/compiler.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/header_files/uc3d_defines_fix.h" framework="" version="" source="avr32/utils/header_files/uc3d_defines_fix.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/header_files/uc3l3_l4_defines_fix.h" framework="" version="" source="avr32/utils/header_files/uc3l3_l4_defines_fix.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/linker_scripts/at32uc3a/0512/gcc/link_uc3a0512.lds" framework="" version="" source="avr32/utils/linker_scripts/at32uc3a/0512/gcc/link_uc3a0512.lds" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/make/Makefile.avr32.in" framework="" version="" source="avr32/utils/make/Makefile.avr32.in" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/make/Makefile.avr32program.in" framework="" version="" source="avr32/utils/make/Makefile.avr32program.in" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/make/Makefile.batchisp.in" framework="" version="" source="avr32/utils/make/Makefile.batchisp.in" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/preprocessor/mrepeat.h" framework="" version="" source="avr32/utils/preprocessor/mrepeat.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/preprocessor/preprocessor.h" framework="" version="" source="avr32/utils/preprocessor/preprocessor.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/preprocessor/stringz.h" framework="" version="" source="avr32/utils/preprocessor/stringz.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/preprocessor/tpaste.h" framework="" version="" source="avr32/utils/preprocessor/tpaste.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/startup/startup_uc3.S" framework="" version="" source="avr32/utils/startup/startup_uc3.S" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/startup/trampoline_uc3.S" framework="" version="" source="avr32/utils/startup/trampoline_uc3.S" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/startup/trampoline_uc3.h" framework="" version="" source="avr32/utils/startup/trampoline_uc3.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/utils/status_codes.h" framework="" version="" source="avr32/utils/status_codes.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/config/conf_board.h" framework="" version="" source="common/applications/user_application/at32uc3a0512_evk1100/config/conf_board.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/main.c" framework="" version="" source="common/applications/user_application/main.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/boards/board.h" framework="" version="" source="common/boards/board.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/utils/interrupt.h" framework="" version="" source="common/utils/interrupt.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/utils/interrupt/interrupt_avr32.h" framework="" version="" source="common/utils/interrupt/interrupt_avr32.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/utils/parts.h" framework="" version="" source="common/utils/parts.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/cpu/cycle_counter/cycle_counter.h" framework="" version="3.18.0" source="avr32\drivers\cpu\cycle_counter\cycle_counter.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/flashc/flashc.c" framework="" version="3.18.0" source="avr32\drivers\flashc\flashc.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/flashc/flashc.h" framework="" version="3.18.0" source="avr32\drivers\flashc\flashc.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/components/ethernet_phy/documentation.h" framework="" version="3.18.0" source="avr32\components\ethernet_phy\documentation.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/components/ethernet_phy/dp83848/ethernet_phy.h" framework="" version="3.18.0" source="avr32\components\ethernet_phy\dp83848\ethernet_phy.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/macb/macb.c" framework="" version="3.18.0" source="avr32\drivers\macb\macb.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/avr32/drivers/macb/macb.h" framework="" version="3.18.0" source="avr32\drivers\macb\macb.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/Config/conf_eth.h" framework="" version="3.18.0" source="avr32\drivers\macb\module_config\conf_eth.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3a0_a1/sysclk.c" framework="" version="3.18.0" source="common\services\clock\uc3a0_a1\sysclk.c" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/genclk.h" framework="" version="3.18.0" source="common\services\clock\genclk.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/osc.h" framework="" version="3.18.0" source="common\services\clock\osc.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3a0_a1/genclk.h" framework="" version="3.18.0" source="common\services\clock\uc3a0_a1\genclk.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3a0_a1/osc.h" framework="" version="3.18.0" source="common\services\clock\uc3a0_a1\osc.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3a0_a1/pll.h" framework="" version="3.18.0" source="common\services\clock\uc3a0_a1\pll.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/uc3a0_a1/sysclk.h" framework="" version="3.18.0" source="common\services\clock\uc3a0_a1\sysclk.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/sysclk.h" framework="" version="3.18.0" source="common\services\clock\sysclk.h" changed="False" content-id="Atmel.ASF" />
+          <file path="src/ASF/common/services/clock/pll.h" framework="" version="3.18.0" source="common\services\clock\pll.h" changed="False" content-id="Atmel.ASF" />
+        </files>
+        <documentation help="http://asf.atmel.com/docs/3.18.0/common.applications.user_application.evk1100/html/index.html" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.18.0" />
+        </dependencies>
+        <project id="common.applications.user_application.evk1100" value="Add" config="" content-id="Atmel.ASF" />
+        <board id="board.evk1100" value="Add" config="" content-id="Atmel.ASF" />
+      </framework-data>
+    </AsfFrameworkConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <Avr32Gcc>
+        <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
+        <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
+        <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
+        <avr32gcc.common.outputfiles.srec>True</avr32gcc.common.outputfiles.srec>
+        <avr32gcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>BOARD=EVK1100</Value>
+            <Value>NDEBUG</Value>
+          </ListValues>
+        </avr32gcc.compiler.symbols.DefSymbols>
+        <avr32gcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>../common/applications/user_application/at32uc3a0512_evk1100/config</Value>
+            <Value>../src/ASF/avr32/utils</Value>
+            <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/common/boards</Value>
+            <Value>../src/ASF/avr32/boards/evk1100</Value>
+            <Value>../src/ASF/avr32/utils/preprocessor</Value>
+            <Value>../src/ASF/avr32/drivers/intc</Value>
+            <Value>../src/ASF/common/utils</Value>
+            <Value>../src</Value>
+            <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/boards</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashc</Value>
+            <Value>../src/ASF/avr32/components/ethernet_phy/dp83848</Value>
+            <Value>../src/ASF/avr32/drivers/macb</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/thirdparty/lwip/lwip-1.4.0/src/include</Value>
+            <Value>../src/ASF/thirdparty/lwip/lwip-port-1.4.0/at32uc3/include</Value>
+            <Value>../src/ASF/thirdparty/lwip/lwip-1.4.0/src/include/ipv4</Value>
+          </ListValues>
+        </avr32gcc.compiler.directories.IncludePaths>
+        <avr32gcc.compiler.optimization.OtherFlags>-fdata-sections</avr32gcc.compiler.optimization.OtherFlags>
+        <avr32gcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</avr32gcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+        <avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>True</avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>
+        <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
+        <avr32gcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload</avr32gcc.compiler.miscellaneous.OtherFlags>
+        <avr32gcc.linker.general.DoNotUseStandardStartFiles>True</avr32gcc.linker.general.DoNotUseStandardStartFiles>
+        <avr32gcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avr32gcc.linker.libraries.Libraries>
+        <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
+        <avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>True</avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>
+        <avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>True</avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>
+        <avr32gcc.linker.miscellaneous.LinkerFlags>-Wl,--relax -T../src/ASF/avr32/utils/linker_scripts/at32uc3a/0512/gcc/link_uc3a0512.lds -Wl,-e,_trampoline</avr32gcc.linker.miscellaneous.LinkerFlags>
+        <avr32gcc.assembler.general.AssemblerFlags>-mrelax</avr32gcc.assembler.general.AssemblerFlags>
+        <avr32gcc.assembler.general.IncludePaths>
+          <ListValues>
+            <Value>../common/applications/user_application/at32uc3a0512_evk1100/config</Value>
+            <Value>../src/ASF/avr32/utils</Value>
+            <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/common/boards</Value>
+            <Value>../src/ASF/avr32/boards/evk1100</Value>
+            <Value>../src/ASF/avr32/utils/preprocessor</Value>
+            <Value>../src/ASF/avr32/drivers/intc</Value>
+            <Value>../src/ASF/common/utils</Value>
+            <Value>../src</Value>
+            <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/boards</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashc</Value>
+            <Value>../src/ASF/avr32/components/ethernet_phy/dp83848</Value>
+            <Value>../src/ASF/avr32/drivers/macb</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+          </ListValues>
+        </avr32gcc.assembler.general.IncludePaths>
+        <avr32gcc.preprocessingassembler.general.AssemblerFlags>-mrelax -DBOARD=EVK1100</avr32gcc.preprocessingassembler.general.AssemblerFlags>
+        <avr32gcc.preprocessingassembler.general.IncludePaths>
+          <ListValues>
+            <Value>../common/applications/user_application/at32uc3a0512_evk1100/config</Value>
+            <Value>../src/ASF/avr32/utils</Value>
+            <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/common/boards</Value>
+            <Value>../src/ASF/avr32/boards/evk1100</Value>
+            <Value>../src/ASF/avr32/utils/preprocessor</Value>
+            <Value>../src/ASF/avr32/drivers/intc</Value>
+            <Value>../src/ASF/common/utils</Value>
+            <Value>../src</Value>
+            <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/boards</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashc</Value>
+            <Value>../src/ASF/avr32/components/ethernet_phy/dp83848</Value>
+            <Value>../src/ASF/avr32/drivers/macb</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+          </ListValues>
+        </avr32gcc.preprocessingassembler.general.IncludePaths>
+        <avr32gcc.compiler.optimization.level>Optimize for size (-Os)</avr32gcc.compiler.optimization.level>
+      </Avr32Gcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <Avr32Gcc>
+        <avr32gcc.common.outputfiles.hex>True</avr32gcc.common.outputfiles.hex>
+        <avr32gcc.common.outputfiles.lss>True</avr32gcc.common.outputfiles.lss>
+        <avr32gcc.common.outputfiles.eep>True</avr32gcc.common.outputfiles.eep>
+        <avr32gcc.common.outputfiles.srec>True</avr32gcc.common.outputfiles.srec>
+        <avr32gcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>BOARD=EVK1100</Value>
+            <Value>DEBUG</Value>
+          </ListValues>
+        </avr32gcc.compiler.symbols.DefSymbols>
+        <avr32gcc.compiler.directories.IncludePaths>
+          <ListValues>
+            <Value>../common/applications/user_application/at32uc3a0512_evk1100/config</Value>
+            <Value>../src/ASF/avr32/utils</Value>
+            <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/common/boards</Value>
+            <Value>../src/ASF/avr32/boards/evk1100</Value>
+            <Value>../src/ASF/avr32/utils/preprocessor</Value>
+            <Value>../src/ASF/avr32/drivers/intc</Value>
+            <Value>../src/ASF/common/utils</Value>
+            <Value>../src</Value>
+            <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/boards</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashc</Value>
+            <Value>../src/ASF/avr32/components/ethernet_phy/dp83848</Value>
+            <Value>../src/ASF/avr32/drivers/macb</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+            <Value>../src/ASF/thirdparty/lwip/lwip-1.4.0/src/include</Value>
+            <Value>../src/ASF/thirdparty/lwip/lwip-port-1.4.0/at32uc3/include</Value>
+            <Value>../src/ASF/thirdparty/lwip/lwip-1.4.0/src/include/ipv4</Value>
+          </ListValues>
+        </avr32gcc.compiler.directories.IncludePaths>
+        <avr32gcc.compiler.optimization.OtherFlags>-fdata-sections</avr32gcc.compiler.optimization.OtherFlags>
+        <avr32gcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</avr32gcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+        <avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>True</avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>
+        <avr32gcc.compiler.warnings.AllWarnings>True</avr32gcc.compiler.warnings.AllWarnings>
+        <avr32gcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -fno-strict-aliasing -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -mno-cond-exec-before-reload</avr32gcc.compiler.miscellaneous.OtherFlags>
+        <avr32gcc.linker.general.DoNotUseStandardStartFiles>True</avr32gcc.linker.general.DoNotUseStandardStartFiles>
+        <avr32gcc.linker.libraries.Libraries>
+          <ListValues>
+            <Value>libm</Value>
+          </ListValues>
+        </avr32gcc.linker.libraries.Libraries>
+        <avr32gcc.linker.optimization.GarbageCollectUnusedSections>True</avr32gcc.linker.optimization.GarbageCollectUnusedSections>
+        <avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>True</avr32gcc.linker.optimization.PutReadOnlyDataInWritableDataSection>
+        <avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>True</avr32gcc.linker.optimization.AllowDirectReferencesToDataSection>
+        <avr32gcc.linker.miscellaneous.LinkerFlags>-Wl,--relax -T../src/ASF/avr32/utils/linker_scripts/at32uc3a/0512/gcc/link_uc3a0512.lds -Wl,-e,_trampoline</avr32gcc.linker.miscellaneous.LinkerFlags>
+        <avr32gcc.assembler.general.AssemblerFlags>-mrelax</avr32gcc.assembler.general.AssemblerFlags>
+        <avr32gcc.assembler.general.IncludePaths>
+          <ListValues>
+            <Value>../common/applications/user_application/at32uc3a0512_evk1100/config</Value>
+            <Value>../src/ASF/avr32/utils</Value>
+            <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/common/boards</Value>
+            <Value>../src/ASF/avr32/boards/evk1100</Value>
+            <Value>../src/ASF/avr32/utils/preprocessor</Value>
+            <Value>../src/ASF/avr32/drivers/intc</Value>
+            <Value>../src/ASF/common/utils</Value>
+            <Value>../src</Value>
+            <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/boards</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashc</Value>
+            <Value>../src/ASF/avr32/components/ethernet_phy/dp83848</Value>
+            <Value>../src/ASF/avr32/drivers/macb</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+          </ListValues>
+        </avr32gcc.assembler.general.IncludePaths>
+        <avr32gcc.preprocessingassembler.general.AssemblerFlags>-mrelax -DBOARD=EVK1100</avr32gcc.preprocessingassembler.general.AssemblerFlags>
+        <avr32gcc.preprocessingassembler.general.IncludePaths>
+          <ListValues>
+            <Value>../common/applications/user_application/at32uc3a0512_evk1100/config</Value>
+            <Value>../src/ASF/avr32/utils</Value>
+            <Value>../src/ASF/avr32/drivers/gpio</Value>
+            <Value>../src/ASF/common/boards</Value>
+            <Value>../src/ASF/avr32/boards/evk1100</Value>
+            <Value>../src/ASF/avr32/utils/preprocessor</Value>
+            <Value>../src/ASF/avr32/drivers/intc</Value>
+            <Value>../src/ASF/common/utils</Value>
+            <Value>../src</Value>
+            <Value>../src/config</Value>
+            <Value>../src/ASF/avr32/boards</Value>
+            <Value>../src/ASF/avr32/drivers/cpu/cycle_counter</Value>
+            <Value>../src/ASF/avr32/drivers/flashc</Value>
+            <Value>../src/ASF/avr32/components/ethernet_phy/dp83848</Value>
+            <Value>../src/ASF/avr32/drivers/macb</Value>
+            <Value>../src/ASF/common/services/clock</Value>
+          </ListValues>
+        </avr32gcc.preprocessingassembler.general.IncludePaths>
+        <avr32gcc.compiler.optimization.level>Optimize (-O1)</avr32gcc.compiler.optimization.level>
+        <avr32gcc.compiler.optimization.DebugLevel>Maximum (-g3)</avr32gcc.compiler.optimization.DebugLevel>
+        <avr32gcc.assembler.debugging.DebugLevel>Default (-g)</avr32gcc.assembler.debugging.DebugLevel>
+        <avr32gcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</avr32gcc.preprocessingassembler.debugging.DebugLevel>
+      </Avr32Gcc>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\ASF\" />
+    <Folder Include="src\ASF\avr32\" />
+    <Folder Include="src\ASF\avr32\boards\" />
+    <Folder Include="src\ASF\avr32\boards\evk1100\" />
+    <Folder Include="src\ASF\avr32\components\" />
+    <Folder Include="src\ASF\avr32\components\ethernet_phy\" />
+    <Folder Include="src\ASF\avr32\components\ethernet_phy\dp83848\" />
+    <Folder Include="src\ASF\avr32\drivers\" />
+    <Folder Include="src\ASF\avr32\drivers\cpu\" />
+    <Folder Include="src\ASF\avr32\drivers\cpu\cycle_counter\" />
+    <Folder Include="src\ASF\avr32\drivers\flashc\" />
+    <Folder Include="src\ASF\avr32\drivers\gpio\" />
+    <Folder Include="src\ASF\avr32\drivers\intc\" />
+    <Folder Include="src\ASF\avr32\drivers\macb\" />
+    <Folder Include="src\ASF\avr32\utils\" />
+    <Folder Include="src\ASF\avr32\utils\header_files\" />
+    <Folder Include="src\ASF\avr32\utils\linker_scripts\" />
+    <Folder Include="src\ASF\avr32\utils\linker_scripts\at32uc3a\" />
+    <Folder Include="src\ASF\avr32\utils\linker_scripts\at32uc3a\0512\" />
+    <Folder Include="src\ASF\avr32\utils\linker_scripts\at32uc3a\0512\gcc\" />
+    <Folder Include="src\ASF\avr32\utils\make\" />
+    <Folder Include="src\ASF\avr32\utils\preprocessor\" />
+    <Folder Include="src\ASF\avr32\utils\startup\" />
+    <Folder Include="src\ASF\common\" />
+    <Folder Include="src\ASF\common\boards\" />
+    <Folder Include="src\ASF\common\services\" />
+    <Folder Include="src\ASF\common\services\clock\" />
+    <Folder Include="src\ASF\common\services\clock\uc3a0_a1\" />
+    <Folder Include="src\ASF\common\utils\" />
+    <Folder Include="src\ASF\common\utils\interrupt\" />
+    <Folder Include="src\ASF\thirdparty\" />
+    <Folder Include="src\ASF\thirdparty\lwip\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\doc\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\netif\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\netif\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\tcp\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\udp\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\include\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\include\arch\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\include\netif\" />
+    <Folder Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\netif\" />
+    <Folder Include="src\config\" />
+    <Folder Include="src\network\" />
+    <Folder Include="src\network\basicweb\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\ASF\avr32\drivers\macb\macb.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\api_lib.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\api_msg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\err.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\netbuf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\netdb.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\netifapi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\sockets.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\api\tcpip.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\def.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\dhcp.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\dns.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\init.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\autoip.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\icmp.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\igmp.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\inet.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\inet_chksum.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\ip.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\ip_addr.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\ipv4\ip_frag.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\lwip_timers_140.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\mem.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\memp.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\netif.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\pbuf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\raw.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\stats.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\sys.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\tcp.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\tcp_in.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\tcp_out.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\core\udp.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\autoip.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\icmp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\igmp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\inet.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\inet_chksum.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\ip.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\ip_addr.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\ipv4\lwip\ip_frag.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\api.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\api_msg.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\arch.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\debug.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\def.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\dhcp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\dns.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\err.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\init.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\mem.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\memp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\memp_std.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\netbuf.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\netdb.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\netif.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\netifapi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\opt.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\pbuf.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\raw.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\sio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\snmp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\snmp_asn1.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\snmp_msg.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\snmp_structs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\sockets.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\stats.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\sys.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\tcp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\tcpip.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\tcp_impl.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\timers.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\lwip\udp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\netif\etharp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\include\netif\ppp_oe.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\netif\etharp.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\network\basicweb\BasicWEB.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\network\basicweb\BasicWEB.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\network\conf_lwip_threads.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\network\ethernet.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\network\ethernet.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\lwip_check.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\lwip_unittests.c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\tcp\tcp_helper.c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\tcp\tcp_helper.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\tcp\test_tcp.c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\tcp\test_tcp.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\tcp\test_tcp_oos.c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\tcp\test_tcp_oos.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\udp\test_udp.c">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\test\unit\udp\test_udp.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\include\arch\cc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\include\arch\perf.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\include\netif\ethernetif.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\thirdparty\lwip\lwip-port-1.4.0\at32uc3\netif\ethernetif.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\common\services\clock\pll.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\sysclk.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\uc3a0_a1\sysclk.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\uc3a0_a1\pll.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\uc3a0_a1\osc.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\uc3a0_a1\genclk.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\osc.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\services\clock\genclk.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\common\services\clock\uc3a0_a1\sysclk.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\CHANGELOG">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\doc\contrib.txt">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\doc\FILES">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\doc\rawapi.txt">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\doc\savannah.txt">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\doc\snmp_agent.txt">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\doc\sys_arch.txt">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\FILES">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\README">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\FILES">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\thirdparty\lwip\lwip-1.4.0\src\netif\FILES">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\config\conf_eth.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\drivers\macb\macb.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\components\ethernet_phy\dp83848\ethernet_phy.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\components\ethernet_phy\documentation.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\avr32\drivers\flashc\flashc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\avr32\drivers\flashc\flashc.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\drivers\cpu\cycle_counter\cycle_counter.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\config\conf_clock.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\config\lwipopts.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\asf.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\config\conf_board.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\compiler.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\linker_scripts\at32uc3a\0512\gcc\link_uc3a0512.lds">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\make\Makefile.avr32.in">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\make\Makefile.avr32program.in">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\make\Makefile.batchisp.in">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\boards\board.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\utils\parts.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\boards\evk1100\evk1100.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\avr32\boards\evk1100\init.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\avr32\boards\evk1100\led.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\avr32\utils\header_files\uc3d_defines_fix.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\utils\interrupt.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\drivers\intc\intc.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\drivers\gpio\gpio.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\preprocessor\tpaste.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\common\utils\interrupt\interrupt_avr32.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\preprocessor\stringz.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\header_files\uc3l3_l4_defines_fix.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\status_codes.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\preprocessor\mrepeat.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\utils\preprocessor\preprocessor.h">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="src\ASF\avr32\boards\evk1100\led.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\avr32\drivers\gpio\gpio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\avr32\drivers\intc\exception.S">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\avr32\drivers\intc\intc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\ASF\avr32\utils\startup\startup_uc3.S">
+      <SubType>compile</SubType>
+    </Compile>
+    <None Include="src\ASF\avr32\utils\startup\trampoline_uc3.h">
+      <SubType>compile</SubType>
+    </None>
+    <Compile Include="src\ASF\avr32\utils\startup\trampoline_uc3.S">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\main.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>
