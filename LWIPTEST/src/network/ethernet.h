@@ -63,7 +63,7 @@ portTASK_FUNCTION( vStartEthernetTask, pvParameters );
 #else
 void EthernetInit( void );
 
-void EthernetTask( void );
+void EthernetTask( uint32_t LocalTime );
 #endif
 
 #endif

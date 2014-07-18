@@ -59,6 +59,9 @@
 #include <compiler.h>
 #include <status_codes.h>
 
+// From module: EIC - External Interrupt Controller
+#include <eic.h>
+
 // From module: EVK1100
 #include <led.h>
 
@@ -85,5 +88,14 @@
 
 // From module: System Clock Control - UC3 A implementation
 #include <sysclk.h>
+
+// From module: USART - Serial interface - UC3 implementation
+#include <serial.h>
+
+// From module: USART - Universal Synchronous/Asynchronous Receiver/Transmitter
+#include <usart.h>
+
+// From module: USART Debug strings
+#include <print_funcs.h>
 
 #endif // ASF_H

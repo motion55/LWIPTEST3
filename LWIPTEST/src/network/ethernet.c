@@ -53,6 +53,8 @@
 /* Scheduler include files. */
 #include "FreeRTOS.h"
 #include "task.h"
+#else
+#include "httpd.h"
 #endif
 
 /* ethernet includes */
@@ -61,6 +63,8 @@
 #include "macb.h"
 #include "netif/ethernetif.h"
 #include "netif/etharp.h"
+#include "lwip/tcp.h"
+#include "lwip/tcp_impl.h"
 
 #if (HTTP_USED == 1)
   #include "basicweb/BasicWEB.h"
@@ -175,6 +179,9 @@ void EthernetInit( void )
 #endif
   // Kill this task.
   vTaskDelete(NULL);
+#else
+	/* Http webserver Init */
+	httpd_init();
 #endif  
 }
 
@@ -278,9 +285,24 @@ static void prvEthernetConfigureInterface(void * param)
 }
 
 #ifndef FREERTOS_USED
-void EthernetTask( void )
+uint32_t last_arp_time = 0;
+uint32_t last_time = 0;
+
+void EthernetTask( uint32_t LocalTime )
 {
 	ethernetif_input(&MACB_if);
+
+	if ((LocalTime - last_arp_time) >= ARP_TMR_INTERVAL)
+	{
+		etharp_tmr();
+		last_arp_time = LocalTime;
+	}
+	
+	if ((LocalTime - last_time) >= TCP_TMR_INTERVAL) 
+	{
+		tcp_tmr();
+		last_time = LocalTime;
+	}
 }
 #endif
 

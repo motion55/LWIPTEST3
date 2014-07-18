@@ -369,13 +369,13 @@
    ---------- Pbuf options ----------
    ----------------------------------
 */
-#define ETH_PAD_SIZE	0
-
 /**
  * PBUF_LINK_HLEN: the number of bytes that should be allocated for a
  * link level header. The default is 14, the standard value for
  * Ethernet.
  */
+#define ETH_PAD_SIZE                	0
+
 #define PBUF_LINK_HLEN                  (14 + ETH_PAD_SIZE)
 
 /*

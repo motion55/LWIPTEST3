@@ -26,6 +26,14 @@
  * Atmel Software Framework (ASF).
  */
 #include <asf.h>
+#include "ethernet.h"
+
+#define TIMER_FREQ	1000
+#define APPLI_CPU_SPEED	cpu_speed
+
+uint32_t cpu_speed;	
+volatile uint32_t time_of_day;
+volatile uint32_t CPU_counts;
 
 int main (void)
 {
@@ -33,6 +41,19 @@ int main (void)
 	sysclk_init();
 
 	board_init();
+	
+	cpu_speed = sysclk_get_cpu_hz();
 
 	// Insert application code here, after the board has been initialized.
+	EthernetInit();
+	
+	for (;;)
+	{
+		U32 delta_time = Get_sys_count() - CPU_counts;
+		delta_time = ((U64)delta_time*TIMER_FREQ)/APPLI_CPU_SPEED;
+		CPU_counts += ((U64)delta_time*APPLI_CPU_SPEED)/TIMER_FREQ;
+		time_of_day += delta_time;
+		
+		EthernetTask(time_of_day);
+	}
 }
