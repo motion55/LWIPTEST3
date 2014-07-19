@@ -53,8 +53,6 @@
 /* Scheduler include files. */
 #include "FreeRTOS.h"
 #include "task.h"
-#else
-#include "httpd.h"
 #endif
 
 /* ethernet includes */
@@ -66,16 +64,22 @@
 #include "lwip/tcp.h"
 #include "lwip/tcp_impl.h"
 
+#ifdef	FREERTOS_USED
 #if (HTTP_USED == 1)
-  #include "basicweb/BasicWEB.h"
+	#include "basicweb/BasicWEB.h"
 #endif
 
 #if (TFTP_USED == 1)
-  #include "BasicTFTP.h"
+	#include "BasicTFTP.h"
 #endif
 
 #if (SMTP_USED == 1)
-  #include "BasicSMTP.h"
+	#include "BasicSMTP.h"
+#endif
+#else
+#if (HTTP_USED == 1)
+	#include "httpserver/httpd.h"
+#endif
 #endif
 
 /* lwIP includes */
