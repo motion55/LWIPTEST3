@@ -58,6 +58,7 @@
  */
 #define NO_SYS                          1
 
+#define NO_SYS_NO_TIMERS                1
 
 /*
    ------------------------------------
@@ -75,7 +76,7 @@
  * MEM_SIZE: the size of the heap memory. If the application will send
  * a lot of data that needs to be copied, this should be set high.
  */
-#define MEM_SIZE                        16000
+#define MEM_SIZE                        (10 * 1024)
 
 
 /*
@@ -89,7 +90,7 @@
  * this should be set high.
  */
 #if BOARD == EVK1101 || BOARD == USER_BOARD /* Reduced RAM */
- #define MEMP_NUM_PBUF                   4
+ #define MEMP_NUM_PBUF                   10
 #else
  #define MEMP_NUM_PBUF                   30
 #endif
@@ -97,39 +98,39 @@
  * MEMP_NUM_RAW_PCB: Number of raw connection PCBs
  * (requires the LWIP_RAW option)
  */
-#define MEMP_NUM_RAW_PCB                4
+#define MEMP_NUM_RAW_PCB                10
 
 /**
  * MEMP_NUM_UDP_PCB: the number of UDP protocol control blocks. One
  * per active UDP "connection".
  * (requires the LWIP_UDP option)
  */
-#define MEMP_NUM_UDP_PCB                4
+#define MEMP_NUM_UDP_PCB                6
 
 /**
- * MEMP_NUM_TCP_PCB: the number of simulatenously active TCP connections.
+ * MEMP_NUM_TCP_PCB: the number of simultaneously active TCP connections.
  * (requires the LWIP_TCP option)
  */
-#define MEMP_NUM_TCP_PCB                2
+#define MEMP_NUM_TCP_PCB                6
 
 /**
  * MEMP_NUM_TCP_PCB_LISTEN: the number of listening TCP connections.
  * (requires the LWIP_TCP option)
  */
-#define MEMP_NUM_TCP_PCB_LISTEN         2
+#define MEMP_NUM_TCP_PCB_LISTEN         4
 
 /**
  * MEMP_NUM_TCP_SEG: the number of simultaneously queued TCP segments.
  * (requires the LWIP_TCP option)
  */
 #if BOARD == EVK1101 || BOARD == USER_BOARD /* Reduced RAM */
- #define MEMP_NUM_TCP_SEG                4
+ #define MEMP_NUM_TCP_SEG                8
 #else
  #define MEMP_NUM_TCP_SEG                16
 #endif
 
 /**
- * MEMP_NUM_ARP_QUEUE: the number of simulateously queued outgoing
+ * MEMP_NUM_ARP_QUEUE: the number of simultaneously queued outgoing
  * packets (pbufs) that are waiting for an ARP request (to resolve
  * their destination address) to finish.
  * (requires the ARP_QUEUEING option)
@@ -176,7 +177,7 @@
  * PBUF_POOL_SIZE: the number of buffers in the pbuf pool.
  */
 #if BOARD == EVK1101 || BOARD == USER_BOARD /* Reduced RAM */
-  #define PBUF_POOL_SIZE                  2
+  #define PBUF_POOL_SIZE                  10
 #else
   #define PBUF_POOL_SIZE                  16
 #endif
@@ -376,7 +377,7 @@
  */
 #define ETH_PAD_SIZE                	0
 
-#define PBUF_LINK_HLEN                  (14 + ETH_PAD_SIZE)
+#define PBUF_LINK_HLEN                  (16 + ETH_PAD_SIZE)
 
 /*
    ------------------------------------

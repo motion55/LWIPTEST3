@@ -177,11 +177,11 @@ void EthernetInit( void )
                    lwipBASIC_SMTP_CLIENT_STACK_SIZE,
                    lwipBASIC_SMTP_CLIENT_PRIORITY );
 #endif
-  // Kill this task.
-  vTaskDelete(NULL);
+	// Kill this task.
+	vTaskDelete(NULL);
 #else
 	/* Http webserver Init */
-//	httpd_init();
+	httpd_init();
 #endif  
 }
 
@@ -223,21 +223,22 @@ void status_callback(struct netif *netif)
 static void prvlwIPInit( void )
 {
 #if NO_SYS
-  prvEthernetConfigureInterface(NULL);
+	lwip_init();
+	prvEthernetConfigureInterface(NULL);
 #else
-  sys_sem_t sem;
-#if ( (LWIP_VERSION) == ((1U << 24) | (3U << 16) | (2U << 8) | (LWIP_VERSION_RC)) )
-  sem = sys_sem_new(0); // Create a new semaphore.
-  tcpip_init(tcpip_init_done, &sem);
-  sys_sem_wait(sem);    // Block until the lwIP stack is initialized.
-  sys_sem_free(sem);    // Free the semaphore.
-#else
-  err_t  err_sem;
-  err_sem = sys_sem_new(&sem, 0); // Create a new semaphore.
-  tcpip_init(tcpip_init_done, &sem);
-  sys_sem_wait(&sem);    // Block until the lwIP stack is initialized.
-  sys_sem_free(&sem);    // Free the semaphore.
-#endif
+	sys_sem_t sem;
+	#if ( (LWIP_VERSION) == ((1U << 24) | (3U << 16) | (2U << 8) | (LWIP_VERSION_RC)) )
+	sem = sys_sem_new(0); // Create a new semaphore.
+	tcpip_init(tcpip_init_done, &sem);
+	sys_sem_wait(sem);    // Block until the lwIP stack is initialized.
+	sys_sem_free(sem);    // Free the semaphore.
+	#else
+	err_t  err_sem;
+	err_sem = sys_sem_new(&sem, 0); // Create a new semaphore.
+	tcpip_init(tcpip_init_done, &sem);
+	sys_sem_wait(&sem);    // Block until the lwIP stack is initialized.
+	sys_sem_free(&sem);    // Free the semaphore.
+	#endif
 #endif
 }
 
@@ -246,55 +247,55 @@ static void prvlwIPInit( void )
  */
 static void prvEthernetConfigureInterface(void * param)
 {
-   struct ip_addr    xIpAddr, xNetMask, xGateway;
-   extern err_t      ethernetif_init( struct netif *netif );
-   unsigned portCHAR MacAddress[6];
+	struct ip_addr    xIpAddr, xNetMask, xGateway;
+	extern err_t      ethernetif_init( struct netif *netif );
+	unsigned portCHAR MacAddress[6];
 
-   /* Default MAC addr. */
-   MacAddress[0] = ETHERNET_CONF_ETHADDR0;
-   MacAddress[1] = ETHERNET_CONF_ETHADDR1;
-   MacAddress[2] = ETHERNET_CONF_ETHADDR2;
-   MacAddress[3] = ETHERNET_CONF_ETHADDR3;
-   MacAddress[4] = ETHERNET_CONF_ETHADDR4;
-   MacAddress[5] = ETHERNET_CONF_ETHADDR5;
+	/* Default MAC addr. */
+	MacAddress[0] = ETHERNET_CONF_ETHADDR0;
+	MacAddress[1] = ETHERNET_CONF_ETHADDR1;
+	MacAddress[2] = ETHERNET_CONF_ETHADDR2;
+	MacAddress[3] = ETHERNET_CONF_ETHADDR3;
+	MacAddress[4] = ETHERNET_CONF_ETHADDR4;
+	MacAddress[5] = ETHERNET_CONF_ETHADDR5;
 
-   /* pass the MAC address to MACB module */
-   vMACBSetMACAddress( MacAddress );
+	/* pass the MAC address to MACB module */
+	vMACBSetMACAddress( MacAddress );
 
 #if LWIP_DHCP
-  xIpAddr.addr  = 0;
-  xNetMask.addr = 0;
-  xNetMask.addr = 0;
-  MACB_if.dhcp = NULL;
+	xIpAddr.addr  = 0;
+	xNetMask.addr = 0;
+	xGateway.addr = 0;
+	MACB_if.dhcp = NULL;
 #else
-	IP4_ADDR(&ipaddr, ETHERNET_CONF_IPADDR0, ETHERNET_CONF_IPADDR1,
+	IP4_ADDR(&xIpAddr, ETHERNET_CONF_IPADDR0, ETHERNET_CONF_IPADDR1,
 					ETHERNET_CONF_IPADDR2, ETHERNET_CONF_IPADDR3);
-	IP4_ADDR(&netmask, ETHERNET_CONF_NET_MASK0, ETHERNET_CONF_NET_MASK1,
+	IP4_ADDR(&xNetMask, ETHERNET_CONF_NET_MASK0, ETHERNET_CONF_NET_MASK1,
 					ETHERNET_CONF_NET_MASK2, ETHERNET_CONF_NET_MASK3);
-	IP4_ADDR(&gw, ETHERNET_CONF_GATEWAY_ADDR0, ETHERNET_CONF_GATEWAY_ADDR1,
+	IP4_ADDR(&xGateway, ETHERNET_CONF_GATEWAY_ADDR0, ETHERNET_CONF_GATEWAY_ADDR1,
 					ETHERNET_CONF_GATEWAY_ADDR2, ETHERNET_CONF_GATEWAY_ADDR3);
 #endif  
 
   /* add data to netif */
 #if	NO_SYS 
-  netif_add( &MACB_if, &xIpAddr, &xNetMask, &xGateway, NULL, ethernetif_init, ethernet_input );
+	netif_add( &MACB_if, &xIpAddr, &xNetMask, &xGateway, NULL, ethernetif_init, ethernet_input );
 #else
-  netif_add( &MACB_if, &xIpAddr, &xNetMask, &xGateway, NULL, ethernetif_init, tcpip_input );
+	netif_add( &MACB_if, &xIpAddr, &xNetMask, &xGateway, NULL, ethernetif_init, tcpip_input );
 #endif  
 
-  /* make it the default interface */
-  netif_set_default( &MACB_if );
+	/* make it the default interface */
+	netif_set_default( &MACB_if );
 
-  /* Setup callback function for netif status change */
-  netif_set_status_callback(&MACB_if, status_callback);
+	/* Setup callback function for netif status change */
+	netif_set_status_callback(&MACB_if, status_callback);
 
 #if LWIP_DHCP
-  /* bring it up */
-  dhcp_start( &MACB_if );
-  sendMessage("LwIP: DHCP Started");
+	/* bring it up */
+	dhcp_start( &MACB_if );
+	sendMessage("LwIP: DHCP Started");
 #else  
-  /*  When the netif is fully configured this function must be called.*/
-  netif_set_up( &MACB_if );
+	/*  When the netif is fully configured this function must be called.*/
+	netif_set_up( &MACB_if );
 #endif  
 }
 

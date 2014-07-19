@@ -125,7 +125,7 @@ to use an MII interface. */
 #if ETHERNET_CONF_USE_PHY_IT == 1
   #if !defined(EXTPHY_MACB_INTERRUPT_PIN) 
   #warning The MACB configuration does not exist in the board definition file. Using default settings.
-  #define EXTPHY_MACB_INTERRUPT_PIN   AVR32_PIN_PA01 /* MACB Interrupt pin, dummy default value */
+  #define EXTPHY_MACB_INTERRUPT_PIN   AVR32_PIN_PA03 /* MACB Interrupt pin, dummy default value */
 #endif
 #endif
 
