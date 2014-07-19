@@ -181,7 +181,7 @@ void EthernetInit( void )
   vTaskDelete(NULL);
 #else
 	/* Http webserver Init */
-	httpd_init();
+//	httpd_init();
 #endif  
 }
 
@@ -261,9 +261,19 @@ static void prvEthernetConfigureInterface(void * param)
    /* pass the MAC address to MACB module */
    vMACBSetMACAddress( MacAddress );
 
+#if LWIP_DHCP
   xIpAddr.addr  = 0;
   xNetMask.addr = 0;
   xNetMask.addr = 0;
+  MACB_if.dhcp = NULL;
+#else
+	IP4_ADDR(&ipaddr, ETHERNET_CONF_IPADDR0, ETHERNET_CONF_IPADDR1,
+					ETHERNET_CONF_IPADDR2, ETHERNET_CONF_IPADDR3);
+	IP4_ADDR(&netmask, ETHERNET_CONF_NET_MASK0, ETHERNET_CONF_NET_MASK1,
+					ETHERNET_CONF_NET_MASK2, ETHERNET_CONF_NET_MASK3);
+	IP4_ADDR(&gw, ETHERNET_CONF_GATEWAY_ADDR0, ETHERNET_CONF_GATEWAY_ADDR1,
+					ETHERNET_CONF_GATEWAY_ADDR2, ETHERNET_CONF_GATEWAY_ADDR3);
+#endif  
 
   /* add data to netif */
 #if	NO_SYS 
@@ -278,9 +288,14 @@ static void prvEthernetConfigureInterface(void * param)
   /* Setup callback function for netif status change */
   netif_set_status_callback(&MACB_if, status_callback);
 
+#if LWIP_DHCP
   /* bring it up */
   dhcp_start( &MACB_if );
   sendMessage("LwIP: DHCP Started");
+#else  
+  /*  When the netif is fully configured this function must be called.*/
+  netif_set_up( &MACB_if );
+#endif  
 }
 
 #ifndef FREERTOS_USED
