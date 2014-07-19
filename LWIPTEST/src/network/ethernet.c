@@ -185,7 +185,7 @@ void EthernetInit( void )
 #endif  
 }
 
-
+#if (NO_SYS==0)
 //! Callback executed when the TCP/IP init is done.
 static void tcpip_init_done(void *arg)
 {
@@ -201,7 +201,7 @@ static void tcpip_init_done(void *arg)
   sys_sem_signal(sem); // Signal the waiting thread that the TCP/IP init is done.
 #endif
 }
-
+#endif
 /*!
  *  \brief status callback used to print address given by DHCP
  */
@@ -216,7 +216,6 @@ void status_callback(struct netif *netif)
     sendMessage("status_callback==DOWN");
   }
 }
-
 
 /*!
  *  \brief start lwIP layer.
@@ -288,6 +287,21 @@ static void prvEthernetConfigureInterface(void * param)
 uint32_t last_arp_time = 0;
 uint32_t last_time = 0;
 
+#if LWIP_DHCP
+typedef enum
+{
+	DHCP_START=0,
+	DHCP_WAIT_ADDRESS,
+	DHCP_ADDRESS_ASSIGNED,
+	DHCP_TIMEOUT
+} DHCP_State_TypeDef;
+
+DHCP_State_TypeDef DHCP_state = DHCP_START;
+uint32_t DHCPfineTimer = 0;
+uint32_t DHCPcoarseTimer = 0;
+void DHCP_Process_Handle( void );
+#endif
+
 void EthernetTask( uint32_t LocalTime )
 {
 	ethernetif_input(&MACB_if);
@@ -303,6 +317,89 @@ void EthernetTask( uint32_t LocalTime )
 		tcp_tmr();
 		last_time = LocalTime;
 	}
+
+#if LWIP_DHCP
+	/* Fine DHCP periodic process every 500ms */
+	if (LocalTime - DHCPfineTimer >= DHCP_FINE_TIMER_MSECS)
+	{
+		DHCPfineTimer = LocalTime;
+		dhcp_fine_tmr();
+		if ((DHCP_state != DHCP_ADDRESS_ASSIGNED)&&(DHCP_state != DHCP_TIMEOUT))
+		{
+			/* process DHCP state machine */
+			DHCP_Process_Handle();
+		}
+	}
+
+	/* DHCP Coarse periodic process every 60s */
+	if (LocalTime - DHCPcoarseTimer >= DHCP_COARSE_TIMER_MSECS)
+	{
+		DHCPcoarseTimer = LocalTime;
+		dhcp_coarse_tmr();
+	}
+#endif
 }
+
+#if LWIP_DHCP
+#define MAX_DHCP_TRIES	4
+
+uint32_t IPaddress = 0;
+
+void DHCP_Process_Handle( void )
+{
+	struct ip_addr ipaddr;
+	struct ip_addr netmask;
+	struct ip_addr gw;
+
+	switch (DHCP_state)
+	{
+	case DHCP_START:
+		{
+			dhcp_start(&MACB_if);
+			IPaddress = 0;
+			DHCP_state = DHCP_WAIT_ADDRESS;
+		}
+		break;
+
+	case DHCP_WAIT_ADDRESS:
+		{
+			/* Read the new IP address */
+			IPaddress = MACB_if.ip_addr.addr;
+
+			if (IPaddress!=0)
+			{
+				DHCP_state = DHCP_ADDRESS_ASSIGNED;
+
+				/* Stop DHCP */
+				dhcp_stop(&MACB_if);
+			}
+			else
+			{
+				/* DHCP timeout */
+				if (MACB_if.dhcp->tries > MAX_DHCP_TRIES)
+				{
+					DHCP_state = DHCP_TIMEOUT;
+
+					/* Stop DHCP */
+					dhcp_stop(&MACB_if);
+
+					/* Static address used */
+					IP4_ADDR(&ipaddr, ETHERNET_CONF_IPADDR0, ETHERNET_CONF_IPADDR1,
+						ETHERNET_CONF_IPADDR2, ETHERNET_CONF_IPADDR3);
+					IP4_ADDR(&netmask, ETHERNET_CONF_NET_MASK0, ETHERNET_CONF_NET_MASK1,
+						ETHERNET_CONF_NET_MASK2, ETHERNET_CONF_NET_MASK3);
+					IP4_ADDR(&gw, ETHERNET_CONF_GATEWAY_ADDR0, ETHERNET_CONF_GATEWAY_ADDR1,
+						ETHERNET_CONF_GATEWAY_ADDR2, ETHERNET_CONF_GATEWAY_ADDR3);
+					netif_set_addr(&MACB_if, &ipaddr , &netmask, &gw);
+
+				}
+			}
+		}
+		break;
+	default: 
+		break;
+	}
+}
+#endif
 #endif
 

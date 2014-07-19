@@ -47,6 +47,8 @@ int main (void)
 	// Insert application code here, after the board has been initialized.
 	EthernetInit();
 	
+	uint32_t last_blink_time = 0;
+	
 	for (;;)
 	{
 		U32 delta_time = Get_sys_count() - CPU_counts;
@@ -54,6 +56,12 @@ int main (void)
 		CPU_counts += ((U64)delta_time*APPLI_CPU_SPEED)/TIMER_FREQ;
 		time_of_day += delta_time;
 		
+		if ((time_of_day - last_blink_time) >= 500)
+		{
+			last_blink_time = time_of_day;
+			LED_Toggle(LED0);
+		}
+	
 		EthernetTask(time_of_day);
 	}
 }

@@ -62,6 +62,7 @@ void board_init(void)
 	gpio_configure_pin(LED1_GPIO,GPIO_DIR_OUTPUT | GPIO_INIT_HIGH);
 	gpio_configure_pin(LED2_GPIO,GPIO_DIR_OUTPUT | GPIO_INIT_HIGH);
 	gpio_configure_pin(LED3_GPIO,GPIO_DIR_OUTPUT | GPIO_INIT_HIGH);
+#ifndef	_MK100A_TEST_
 	gpio_configure_pin(LED4_GPIO,GPIO_DIR_OUTPUT | GPIO_INIT_HIGH);
 	gpio_configure_pin(LED5_GPIO,GPIO_DIR_OUTPUT | GPIO_INIT_HIGH);
 	gpio_configure_pin(LED6_GPIO,GPIO_DIR_OUTPUT | GPIO_INIT_HIGH);
@@ -74,6 +75,7 @@ void board_init(void)
 	gpio_configure_pin(GPIO_JOYSTICK_LEFT,GPIO_DIR_INPUT);
 	gpio_configure_pin(GPIO_JOYSTICK_UP,GPIO_DIR_INPUT);
 	gpio_configure_pin(GPIO_JOYSTICK_DOWN,GPIO_DIR_INPUT);
+#endif	
 
 #if defined (CONF_BOARD_AT45DBX)
 	static const gpio_map_t AT45DBX_SPI_GPIO_MAP = {

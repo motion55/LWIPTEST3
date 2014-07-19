@@ -72,25 +72,25 @@ to use an MII interface. */
 //! @{
 #define ETHERNET_CONF_ETHADDR0    0x00
 #define ETHERNET_CONF_ETHADDR1    0x04
-#define ETHERNET_CONF_ETHADDR2    0x25
-#define ETHERNET_CONF_ETHADDR3    0x1C
-#define ETHERNET_CONF_ETHADDR4    0xA0
-#define ETHERNET_CONF_ETHADDR5    0x02
+#define ETHERNET_CONF_ETHADDR2    0x26
+#define ETHERNET_CONF_ETHADDR3    0x12
+#define ETHERNET_CONF_ETHADDR4    0x34
+#define ETHERNET_CONF_ETHADDR5    0x56
 //! @}
 
 /*! EVK1100 IP Address (192.168.0.2) */
 //! @{
 #define ETHERNET_CONF_IPADDR0          192
 #define ETHERNET_CONF_IPADDR1          168
-#define ETHERNET_CONF_IPADDR2            0
-#define ETHERNET_CONF_IPADDR3            2
+#define ETHERNET_CONF_IPADDR2            7
+#define ETHERNET_CONF_IPADDR3           21
 //! @}
 
 /*! HOST IP Address (192.168.0.1) */
 //! @{
 #define ETHERNET_CONF_GATEWAY_ADDR0    192
 #define ETHERNET_CONF_GATEWAY_ADDR1    168
-#define ETHERNET_CONF_GATEWAY_ADDR2      0
+#define ETHERNET_CONF_GATEWAY_ADDR2      7
 #define ETHERNET_CONF_GATEWAY_ADDR3      1
 //! @}
 
@@ -120,7 +120,7 @@ to use an MII interface. */
 #endif
 
 /*! set to 1 if Phy status changes handle an interrupt */
-#define ETHERNET_CONF_USE_PHY_IT           0
+#define ETHERNET_CONF_USE_PHY_IT           1
 
 #if ETHERNET_CONF_USE_PHY_IT == 1
   #if !defined(EXTPHY_MACB_INTERRUPT_PIN) 
@@ -128,6 +128,5 @@ to use an MII interface. */
   #define EXTPHY_MACB_INTERRUPT_PIN   AVR32_PIN_PA01 /* MACB Interrupt pin, dummy default value */
 #endif
 #endif
-
 
 #endif // __CONF_ETH_H__
