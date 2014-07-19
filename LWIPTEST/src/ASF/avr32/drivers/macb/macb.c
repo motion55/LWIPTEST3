@@ -64,6 +64,8 @@
 #include "conf_eth.h"
 #include "intc.h"
 #include "ethernet_phy.h"
+#include "eic.h"
+#include "board.h"
 
 /* Make sure ETHERNET_CONF_USE_RMII_INTERFACE is defined.
  * If undefined set it to 0, which means MII mode.
@@ -544,22 +546,27 @@ bool xMACBInit(volatile avr32_macb_t *macb)
 
 void vDisableMACBOperations(volatile avr32_macb_t *macb)
 {
-  bool global_interrupt_enabled = Is_global_interrupt_enabled();
+	bool global_interrupt_enabled = Is_global_interrupt_enabled();
 #if ETHERNET_CONF_USE_PHY_IT == 1
-  volatile avr32_gpio_t *gpio = &AVR32_GPIO;
-  volatile avr32_gpio_port_t *gpio_port = &gpio->port[EXTPHY_MACB_INTERRUPT_PIN/32];
-
-  gpio_port->ierc =  1 << (EXTPHY_MACB_INTERRUPT_PIN%32);
+	#if EXTPHY_MACB_USE_EXTINT
+	volatile avr32_eic_t *eic = &AVR32_EIC;
+	eic->idr = 1 << EXTPHY_MACB_INTERRUPT;
+	eic->imr;
+	#else
+	volatile avr32_gpio_t *gpio = &AVR32_GPIO;
+	volatile avr32_gpio_port_t *gpio_port = &gpio->port[EXTPHY_MACB_INTERRUPT_PIN/32];
+	gpio_port->ierc =  1 << (EXTPHY_MACB_INTERRUPT_PIN%32);
+	#endif
 #endif
 
-  // write the MACB control register : disable Tx & Rx
-  macb->ncr &= ~((1 << AVR32_MACB_RE_OFFSET) | (1 << AVR32_MACB_TE_OFFSET));
+	// write the MACB control register : disable Tx & Rx
+	macb->ncr &= ~((1 << AVR32_MACB_RE_OFFSET) | (1 << AVR32_MACB_TE_OFFSET));
 
-  // We no more want to interrupt on Rx and Tx events.
-  if (global_interrupt_enabled) Disable_global_interrupt();
-  macb->idr = AVR32_MACB_IER_RCOMP_MASK | AVR32_MACB_IER_TCOMP_MASK;
-  macb->isr;
-  if (global_interrupt_enabled) Enable_global_interrupt();
+	// We no more want to interrupt on Rx and Tx events.
+	if (global_interrupt_enabled) Disable_global_interrupt();
+	macb->idr = AVR32_MACB_IER_RCOMP_MASK | AVR32_MACB_IER_TCOMP_MASK;
+	macb->isr;
+	if (global_interrupt_enabled) Enable_global_interrupt();
 }
 
 
@@ -693,6 +700,11 @@ static void prvSetupMACAddress(volatile avr32_macb_t *macb)
                                     cMACAddress[ 4 ];
 }
 
+#if EXTPHY_MACB_USE_EXTINT
+//! Structure holding the configuration parameters of the EIC module.
+eic_options_t eic_options;
+#endif
+
 static void prvSetupMACBInterrupt(volatile avr32_macb_t *macb)
 {
 #ifdef FREERTOS_USED
@@ -719,11 +731,40 @@ static void prvSetupMACBInterrupt(volatile avr32_macb_t *macb)
     INTC_register_interrupt((__int_handler)&vMACB_ISR, AVR32_MACB_IRQ, AVR32_INTC_INT2);
 
 #if ETHERNET_CONF_USE_PHY_IT == 1
+	#if EXTPHY_MACB_USE_EXTINT
+	static const gpio_map_t EIC_GPIO_MAP =
+	{
+		{EXTPHY_MACB_INTERRUPT_PIN, EXTPHY_MACB_INTERRUPT_FUNCTION},
+	};
+	gpio_enable_module(EIC_GPIO_MAP, sizeof(EIC_GPIO_MAP) / sizeof(EIC_GPIO_MAP[0]));
+	// Enable GPIO pull ups for the interrupt pin.
+	gpio_enable_pin_pull_up(EXTPHY_MACB_INTERRUPT_PIN);
+    // Setup the interrupt for PHY.
+    // Register the interrupt handler to the interrupt controller at interrupt level 2
+    INTC_register_interrupt((__int_handler)&vPHY_ISR, EXTPHY_MACB_INTERRUPT_IRQ, AVR32_INTC_INT2);
+	
+	// Enable edge-triggered interrupt.
+	eic_options.eic_mode  = EIC_MODE_EDGE_TRIGGERED;
+	// Interrupt will trigger on falling edge (this is a must-do for the keypad scan
+	// feature if the chosen mode is edge-triggered).
+	eic_options.eic_edge  = EIC_EDGE_FALLING_EDGE;
+	// Initialize in synchronous mode : interrupt is synchronized to the clock
+	eic_options.eic_async = EIC_SYNCH_MODE;
+	// Set the interrupt line number.
+	eic_options.eic_line  = EXTPHY_MACB_INTERRUPT;
+	// Init the EIC controller with the options
+	eic_init(&AVR32_EIC, &eic_options, 1);
+	// Enable the EIC line.
+	eic_enable_line(&AVR32_EIC, EXTPHY_MACB_INTERRUPT);
+	// Enable the interrupt for the EIC line.
+	eic_enable_interrupt_line(&AVR32_EIC, EXTPHY_MACB_INTERRUPT);
+	#else
     /* GPIO enable interrupt upon rising edge */
     gpio_enable_pin_interrupt(EXTPHY_MACB_INTERRUPT_PIN, GPIO_FALLING_EDGE);
     // Setup the interrupt for PHY.
     // Register the interrupt handler to the interrupt controller at interrupt level 2
     INTC_register_interrupt((__int_handler)&vPHY_ISR, (AVR32_GPIO_IRQ_0 + (EXTPHY_MACB_INTERRUPT_PIN/8)), AVR32_INTC_INT2);
+	#endif
     /* enable interrupts on INT pin */
     vWriteMDIO( macb, PHY_MICR , ( MICR_INTEN | MICR_INTOE ));
     /* enable "link change" interrupt for Phy */
@@ -782,11 +823,64 @@ void vWriteMDIO(volatile avr32_macb_t *macb, unsigned short usAddress, unsigned 
   macb->ncr &= ~AVR32_MACB_NCR_MPE_MASK;
 }
 
+static void prvSetupMACBConfig(volatile avr32_macb_t *macb)
+{
+  volatile unsigned long lpa, config, advertise;
+
+  // read the LPA configuration of the PHY
+  lpa = ulReadMDIO(macb, PHY_LPA);
+
+  // read the MACB config register
+  config = macb->ncfgr;
+
+  // set advertise register
+#if ETHERNET_CONF_AN_ENABLE == 1
+  advertise = ADVERTISE_CSMA | ADVERTISE_ALL;
+#else
+  advertise = ADVERTISE_CSMA;
+  #if ETHERNET_CONF_USE_100MB
+    #if ETHERNET_CONF_USE_FULL_DUPLEX
+      advertise |= ADVERTISE_100FULL;
+    #else
+      advertise |= ADVERTISE_100HALF;
+    #endif
+  #else
+    #if ETHERNET_CONF_USE_FULL_DUPLEX
+      advertise |= ADVERTISE_10FULL;
+    #else
+      advertise |= ADVERTISE_10HALF;
+    #endif
+  #endif
+#endif
+
+  // if 100MB needed
+  if ((lpa & advertise) & (LPA_100HALF | LPA_100FULL))
+  {
+    config |= AVR32_MACB_SPD_MASK;
+  }
+  else
+  {
+    config &= ~(AVR32_MACB_SPD_MASK);
+  }
+
+  // if FULL DUPLEX needed
+  if ((lpa & advertise) & (LPA_10FULL | LPA_100FULL))
+  {
+    config |= AVR32_MACB_FD_MASK;
+  }
+  else
+  {
+    config &= ~(AVR32_MACB_FD_MASK);
+  }
+
+  // write the MACB config register
+  macb->ncfgr = config;
+}
+
 static bool prvProbePHY(volatile avr32_macb_t *macb)
 {
-  volatile unsigned long mii_status;
   volatile unsigned long config;
-  unsigned long upper, lower, advertise, lpa;
+  unsigned long upper, lower, advertise;
   volatile unsigned long physID;
 
   // Read Phy Identifier register 1 & 2
@@ -832,39 +926,15 @@ static bool prvProbePHY(volatile avr32_macb_t *macb)
     // update ctrl register
     vWriteMDIO(macb, PHY_BMCR, config);
 
+#if (ETHERNET_CONF_USE_PHY_IT == 0)
+    volatile unsigned long mii_status;
     // loop while link status isn't OK
     do {
       mii_status = ulReadMDIO(macb, PHY_BMSR);
     } while (!(mii_status & BMSR_LSTATUS));
 
-    // read the LPA configuration of the PHY
-    lpa = ulReadMDIO(macb, PHY_LPA);
-
-    // read the MACB config register
-    config = AVR32_MACB.ncfgr;
-
-    // if 100MB needed
-    if ((lpa & advertise) & (LPA_100HALF | LPA_100FULL))
-    {
-      config |= AVR32_MACB_SPD_MASK;
-    }
-    else
-    {
-      config &= ~(AVR32_MACB_SPD_MASK);
-    }
-
-    // if FULL DUPLEX needed
-    if ((lpa & advertise) & (LPA_10FULL | LPA_100FULL))
-    {
-      config |= AVR32_MACB_FD_MASK;
-    }
-    else
-    {
-      config &= ~(AVR32_MACB_FD_MASK);
-    }
-
-    // write the MACB config register
-    macb->ncfgr = config;
+    prvSetupMACBConfig(macb);
+#endif /* ETHERNET_CONF_USE_PHY_IT == 0 */
 
     return true;
   }
@@ -1031,23 +1101,32 @@ __attribute__((__noinline__))
 #endif
 static long prvPHY_ISR_NonNakedBehaviour(void)
 {
-  // Variable definitions can be made now.
-  volatile unsigned long ulIntStatus, ulEventStatus;
-  long xSwitchRequired = false;
-  volatile avr32_gpio_t *gpio = &AVR32_GPIO;
-  volatile avr32_gpio_port_t *gpio_port = &gpio->port[EXTPHY_MACB_INTERRUPT_PIN/32];
+	// Variable definitions can be made now.
+	volatile unsigned long ulIntStatus, ulEventStatus;
+	long xSwitchRequired = false;
+	
+	// read Phy Interrupt register Status
+	ulIntStatus = ulReadMDIO(&AVR32_MACB, PHY_MISR);
 
-  // read Phy Interrupt register Status
-  ulIntStatus = ulReadMDIO(&AVR32_MACB, PHY_MISR);
+	// read Phy status register
+	ulEventStatus = ulReadMDIO(&AVR32_MACB, PHY_BMSR);
+	// dummy read
+	ulEventStatus = ulReadMDIO(&AVR32_MACB, PHY_BMSR);
+  
+	if(ulEventStatus & BMSR_LSTATUS) 
+	{
+		prvSetupMACBConfig(&AVR32_MACB);
+	}
 
-  // read Phy status register
-  ulEventStatus = ulReadMDIO(&AVR32_MACB, PHY_BMSR);
-  // dummy read
-  ulEventStatus = ulReadMDIO(&AVR32_MACB, PHY_BMSR);
+#if EXTPHY_MACB_USE_EXTINT
+	eic_clear_interrupt_line(&AVR32_EIC, EXTPHY_MACB_INTERRUPT);
+#else
+	volatile avr32_gpio_t *gpio = &AVR32_GPIO;
+	volatile avr32_gpio_port_t *gpio_port = &gpio->port[EXTPHY_MACB_INTERRUPT_PIN/32];
+	// clear interrupt flag on GPIO
+	gpio_port->ifrc =  1 << (EXTPHY_MACB_INTERRUPT_PIN%32);
+#endif  
 
-   // clear interrupt flag on GPIO
-  gpio_port->ifrc =  1 << (EXTPHY_MACB_INTERRUPT_PIN%32);
-
-  return ( xSwitchRequired );
+	return ( xSwitchRequired );
 }
 #endif
