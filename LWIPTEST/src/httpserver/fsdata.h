@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2001-2003 Swedish Institute of Computer Science.
  * All rights reserved. 
  * 
@@ -28,9 +28,9 @@
  * 
  * Author: Adam Dunkels <adam@sics.se>
  *
- **/
-#ifndef __FSDATA_H__
-#define __FSDATA_H__
+ */
+#ifndef LWIP_FSDATA_H
+#define LWIP_FSDATA_H
 
 #include "lwip/opt.h"
 #include "fs.h"
@@ -47,4 +47,4 @@ struct fsdata_file {
 #endif /* HTTPD_PRECALCULATED_CHECKSUM */
 };
 
-#endif /* __FSDATA_H__ */
+#endif /* LWIP_FSDATA_H */
