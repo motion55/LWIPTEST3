@@ -377,7 +377,7 @@
  */
 #define ETH_PAD_SIZE                	0
 
-#define PBUF_LINK_HLEN                  (16 + ETH_PAD_SIZE)
+#define PBUF_LINK_HLEN                  (14 + ETH_PAD_SIZE)
 
 /*
    ------------------------------------
