@@ -80,6 +80,7 @@
 #if (HTTP_USED == 1)
 	#include "httpserver/httpd.h"
 #endif
+	#include "COMM_server.h"
 #endif
 
 /* lwIP includes */
@@ -186,6 +187,10 @@ void EthernetInit( void )
 #else
 	/* Http webserver Init */
 	httpd_init();
+
+	#ifdef _COMM_SERVER_H_
+	COMM_server_start();
+	#endif
 #endif  
 }
 

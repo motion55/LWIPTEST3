@@ -122,10 +122,11 @@
 #define USB_OVERCURRENT_DETECT_PIN  AVR32_PIN_PX33
 
 //! @}
-#define _MK100A_TEST_	TRUE
+#define _MK100A_TEST_	1
+#define _MK100ETH_TEST_	1
 
 //! Number of LEDs.
-#ifdef	_MK100A_TEST_
+#if	(_MK100A_TEST_||_MK100ETH_TEST_)
 #define LED_COUNT   4
 #else
 #define LED_COUNT   8
@@ -133,7 +134,7 @@
 /*! \name GPIO Connections of LEDs
  */
 //! @{
-#ifdef	_MK100A_TEST_
+#if	(_MK100A_TEST_||_MK100ETH_TEST_)
 #define LED0_GPIO   AVR32_PIN_PB18
 #define LED1_GPIO   AVR32_PIN_PB12
 #define LED2_GPIO   AVR32_PIN_PB13
@@ -367,12 +368,28 @@
 //! @{
 
 //! GPIO connection of the MAC PHY PWR_DOWN/INT signal for the external phy controller
-#ifdef	_MK100A_TEST_
-#define MACB_INTERRUPT_PIN          AVR32_PIN_PA03
+#define EXTPHY_MACB_USE_EXTINT	1
+
+#if EXTPHY_MACB_USE_EXTINT
+	#if	_MK100A_TEST_
+	#define EXTPHY_MACB_INTERRUPT_PIN          AVR32_EIC_EXTINT_4_PIN	//PA03
+	#define EXTPHY_MACB_INTERRUPT_FUNCTION     AVR32_EIC_EXTINT_4_FUNCTION
+	#define EXTPHY_MACB_INTERRUPT              EXT_INT4
+	#define EXTPHY_MACB_INTERRUPT_IRQ          AVR32_EIC_IRQ_4
+	#else
+	#define EXTPHY_MACB_INTERRUPT_PIN          AVR32_EIC_EXTINT_3_PIN	//PA24
+	#define EXTPHY_MACB_INTERRUPT_FUNCTION     AVR32_EIC_EXTINT_3_FUNCTION
+	#define EXTPHY_MACB_INTERRUPT              EXT_INT3
+	#define EXTPHY_MACB_INTERRUPT_IRQ          AVR32_EIC_IRQ_3
+	#endif
 #else
-#define MACB_INTERRUPT_PIN          AVR32_PIN_PA24
+	#if	_MK100A_TEST_
+	#define MACB_INTERRUPT_PIN          AVR32_PIN_PA03
+	#else
+	#define MACB_INTERRUPT_PIN          AVR32_PIN_PA24
+	#endif
+	#define EXTPHY_MACB_INTERRUPT_PIN   MACB_INTERRUPT_PIN // Added for homogeneity
 #endif
-#define EXTPHY_MACB_INTERRUPT_PIN   MACB_INTERRUPT_PIN // Added for homogeneity
 
 #define EXTPHY_MACB                 (&AVR32_MACB)
 #define EXTPHY_MACB_MDC_PIN         AVR32_MACB_MDC_0_PIN
