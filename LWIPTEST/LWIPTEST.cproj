@@ -229,7 +229,8 @@
         </avr32gcc.preprocessingassembler.general.IncludePaths>
       </Avr32Gcc>
     </ToolchainSettings>
-    <PostBuildEvent>copy $(OutputFileName)$(OutputFileExtension) DFU$(OutputFileExtension)</PostBuildEvent>
+    <PostBuildEvent>copy $(OutputFileName)$(OutputFileExtension) DFU$(OutputFileExtension)
+copy ..\program.cmd</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>

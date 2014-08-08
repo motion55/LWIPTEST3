@@ -1,0 +1,1 @@
+start batchisp.exe -device AT32UC3A0512 -hardware usb -operation onfail abort memory FLASH erase F loadbuffer DFU.elf program verify start reset 0
