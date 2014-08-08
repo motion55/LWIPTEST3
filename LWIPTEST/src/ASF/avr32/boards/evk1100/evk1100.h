@@ -122,8 +122,8 @@
 #define USB_OVERCURRENT_DETECT_PIN  AVR32_PIN_PX33
 
 //! @}
-#define _MK100A_TEST_	1
-#define _MK100ETH_TEST_	1
+#define _MK100A_TEST_	0
+#define _MK100ETH_TEST_	0
 
 //! Number of LEDs.
 #if	(_MK100A_TEST_||_MK100ETH_TEST_)
