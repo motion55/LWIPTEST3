@@ -73,9 +73,9 @@ to use an MII interface. */
 #define ETHERNET_CONF_ETHADDR0    0x00
 #define ETHERNET_CONF_ETHADDR1    0x04
 #define ETHERNET_CONF_ETHADDR2    0x25
-#define ETHERNET_CONF_ETHADDR3    0x12
-#define ETHERNET_CONF_ETHADDR4    0x34
-#define ETHERNET_CONF_ETHADDR5    0x56
+#define ETHERNET_CONF_ETHADDR3    0x1D
+#define ETHERNET_CONF_ETHADDR4    0xC1
+#define ETHERNET_CONF_ETHADDR5    0x0A
 //! @}
 
 /*! EVK1100 IP Address (192.168.0.2) */
@@ -83,7 +83,7 @@ to use an MII interface. */
 #define ETHERNET_CONF_IPADDR0          192
 #define ETHERNET_CONF_IPADDR1          168
 #define ETHERNET_CONF_IPADDR2            7
-#define ETHERNET_CONF_IPADDR3           21
+#define ETHERNET_CONF_IPADDR3          153
 //! @}
 
 /*! HOST IP Address (192.168.0.1) */
@@ -91,7 +91,7 @@ to use an MII interface. */
 #define ETHERNET_CONF_GATEWAY_ADDR0    192
 #define ETHERNET_CONF_GATEWAY_ADDR1    168
 #define ETHERNET_CONF_GATEWAY_ADDR2      7
-#define ETHERNET_CONF_GATEWAY_ADDR3      1
+#define ETHERNET_CONF_GATEWAY_ADDR3     10
 //! @}
 
 /*! The network mask being used. */

@@ -560,8 +560,6 @@ static void ProcessData(struct tcp_pcb *tpcb, struct COMM_server_struct *es)
 {
 	last_tpcb = tpcb;
 
-//	ReceiveChars(echoserver_senddata, NULL);
-
 	if (TX_End>TX_Beg)
 		TX_Data(tpcb, es);
 }
